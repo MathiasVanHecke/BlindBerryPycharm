@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Registreer</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+
+</head>
+<body>
+
+    <div class="bg">
+
+{#        <div class="alert">#}
+{#            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>#}
+{#            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.#}
+{#        </div>#}
+
+        <h1 class="center">BlindBerry</h1>
+
+        <form method="post" class="center">
+            <div> Laten we elkaar <br> beter leren kennen</div>
+            <input class="first" placeholder="username" name="username"> <br>
+            <input placeholder="passwoord" type="password" name="password"> <br>
+            <input placeholder="herhaal passwoord" type="password" name="herhalpassword"> <br>
+
+            <a href="{{ url_for('login') }}"><button type="submit">Registreer</button></a>
+
+        </form>
+
+
+
+    </div>
+
+
+
+</body>
+
+</html>
+

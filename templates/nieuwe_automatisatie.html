@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Nieuwe automatisatie
+{% endblock %}
+
+{% block automatisatie %}
+    class="active"
+{% endblock %}
+
+
+
+{% block body %}
+<div class="content center">
+
+<h1>Nieuwe automatisatie</h1>
+
+    <form method="post">
+        <input placeholder="naam" name="naam" value="{{ request.form.naam }}" required><br>
+
+        <div class="graden">
+            Als de temperatuur:<select name="Groter_Kleiner">
+            <option value="Groter">Groter</option>
+            <option value="Kleiner">Kleiner</option></select>
+            is dan: <input class="graden" placeholder="" name="graden" id="graden" required>
+            °C <select name="graden_groter_kleiner">
+            <option value="Open">Open</option>
+            <option value="Sluit">Sluit</option>
+            </select>
+             de rolluik.
+            <br>
+        </div>
+
+        <div class="uur">
+             <input type="time" name="uurStart" value="{{ request.form.uurStart }}">
+             <input type="time" name="uurStop" value="{{ request.form.uurStop }}">
+        </div>
+        <button type="submit" >Aanmaken</button>
+        <a href="{{ url_for('automatisatie') }}"><button type="button">Annuleren</button></a>
+
+
+    </form>
+
+</div>
+
+<script>
+
+function disable_div() {
+    if  (document.getElementById("graden").checked = true){
+        document.getElementsById("geraden").style.textDecoration = "line-through"
+
+    }
+    else{
+
+
+    }
+
+  }
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}
