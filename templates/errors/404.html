@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}
+    {{ error }}
+{% endblock %}
+
+{% block home %}
+    class="active"
+{% endblock %}
+
+{% block body %}
+
+
+    <img class="background center" src="http://img2.thejournal.ie/inline/2434312/original/?width=426&version=2434312" class="center">
+    <div class="message center">
+        <h1>404</h1>
+        <h2>Er is hier niets te vinden.</h2>
+        <button action="/index.html">Keer hier terug</button>
+    </div>
+{% endblock %}

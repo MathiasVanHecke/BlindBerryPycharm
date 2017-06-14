@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Automatisatie
+{% endblock %}
+
+{% block automatisatie %}
+    class="active"
+{% endblock %}
+
+{% block body %}
+    <div class="content automatisatie center">
+    <form method="post">
+        <button type="submit" value="geen licht-open gordijn" name="button">geen licht-open gordijn</button>
+    </form>
+
+        <h1>Automatisatie</h1>
+        <a href="{{ url_for('nieuwe_automatisatie') }}"><button type="button">Een nieuwe automatisatie aanmaken.</button></a>
+
+            <table class="automatisatie" align="center">
+
+
+            {% for automatisatie in lijst_automatisaties %}
+
+            <tr>
+                <td rowspan="3"><label class="switch"><input type="checkbox"><div class="slider"></div></label></td>
+                <td>{{ automatisatie[0] }}</td>
+            </tr>
+             <tr>
+                <td>{{ automatisatie[3] }}</td>
+            </tr>
+            <tr id="laatste_tr">
+                <td>{{ automatisatie[1] }} - {{ automatisatie[2] }}</td>
+            </tr>
+
+            {% endfor %}
+
+            </table>
+
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+body,html{
+    height: 100%;
+    margin: 0;
+    font: 400 15px/1.8 "Lato", sans-serif;
+    color: #777;
+}
+
+h1{
+    font-family: "Roboto", sans-serif;
+    font-size: 80px;
+    color: #444444;
+    padding-top: 50px;
+    padding-bottom: 25px;
+    font-weight: bold;
+
+}
+
+.bg{
+    background-image: url(http://www.keribrownhomes.com/wp-content/uploads/2016/08/master-bedroom-modern-minimalist-house-design-with-white-window-curtains-wooden-wardrobe-and-laminate-flooring-tile-ideas.jpg);
+    height: 100%;
+    position: relative;
+    opacity: 0.95;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+form{
+    background-color: #eaeaea;
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    color:#8b8b8b;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    width:290px;
+    border-radius: 5px;
+    transition: 2s ease;
+
+}
+
+#message{
+    line-height: 31px;
+    margin-bottom: 25px;
+}
+
+b{
+    font-weight: bold;
+}
+input{
+    border: 0;
+    outline: 0px;
+    background: transparent;
+    border-bottom: 1px solid #8b8b8b;
+    margin-bottom: 20px;
+    font-size: 18px;
+    width: 195px;
+    text-align: center;
+    color: #8b8b8b;
+    height: 35px;
+
+}
+
+.link_registreer {
+    text-decoration: none;
+    font-size: 13px;
+    color: #8b8b8b;
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    border: 1px solid #8b8b8b;
+    font-size: 15px;
+    color: #8b8b8b;
+    padding: 10px 10px;
+}
+
+button:hover {
+    transition:all 0.3s ease;
+    background-color: #8b8b8b;
+    color: white;
+}
+
+.center{
+    text-align: center;
+}
+
+.error{
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    text-decoration: underline;
+    color: #8b8b8b;
+}

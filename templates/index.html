@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+
+</head>
+<body>
+
+    <div class="bg">
+
+{#        <div class="alert">#}
+{#            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>#}
+{#            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.#}
+{#        </div>#}
+
+        <h1 class="center">BlindBerry</h1>
+
+        <form method="post" class="center">
+            <div id="message"></div>
+            <input class="first" placeholder="username" name="username" value="{{ request.form.username }}" required> <br>
+            <input placeholder="password" type="password" name="password" value="{{ request.form.password }}" required> <br>
+            <a href="{{ url_for('registreer') }}"><p class="link_registreer">Nog geen account? Registreer hier.</p></a>
+            <a><button type="submit">aanmelden</button></a>
+        {% if error %}
+            <p class="error center"><strong>Opgepast: </strong>{{ error }}</p>
+        {% endif %}
+        </form>
+
+
+
+    </div>
+
+<script src="/static/scripts/verschillende_uur_boodschappen.js"></script>
+
+</body>
+
+</html>
+

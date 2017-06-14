@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log
+{% endblock %}
+
+{% block log %}
+    class="active"
+{% endblock %}
+
+{% block body %}
+  <div class="content center log">
+  <h1>Log</h1>
+
+        <table class="log" align="center">
+            <tr  class="log">
+                <th><strong>Datum</strong></th>
+                <th><strong>Uur</strong></th>
+                <th><strong>Reden</strong></th>
+            </tr>
+            {% for log in lijst_logs %}
+            <tr>
+
+                <td>{{ log[0] }}</td>
+                <td>{{ log[1] }}</td>
+                <td>{{ log[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <script src="/static/scripts/outputupdate.js"></script>
+
+{% endblock %}

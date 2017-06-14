@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+</head>
+<main>
+    <nav>
+    <a  class="logo" href="{{ url_for('home') }}"> <img src="static/pic/logo.PNG"> </a>
+        <ul>
+            <li><a {% block home %} {% endblock %} href="{{ url_for("home") }}"> HOME</a></li>
+            <li><a {% block log %} {% endblock %} href="{{ url_for("log") }}">LOG</a></li>
+            <li><a {% block automatisatie %} {% endblock %} href="{{ url_for("automatisatie") }}">AUTOMATISATIE</a></li>
+            <li><a {% block loguit %} {% endblock %} href="{{ url_for("logout") }}">LOG UIT</a></li>
+        </ul>
+    </nav>
+{% block body %}
+    <body>
+
+    </body>
+{% endblock %}
+
+{% block footer %}
+    <div class="footer">&copy; 2017 Mathias Van Hecke -- <a href="http://student.howest.be/mathias.van.hecke/portfolio/">Hier</a> vindt u de link naar mijn portefolio</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-100792500-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+{% endblock %}
+</main>
+</html>

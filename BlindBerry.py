@@ -3,6 +3,7 @@ from functools import wraps
 from DbClass import DbClass
 import ctypes
 import os
+import datetime
 
 #====Stepper and light sensor===
 
@@ -19,6 +20,64 @@ ControlPin = [7,11,13,15]
 #=================
 
 app = Flask(__name__)
+
+def rolluik_openen(reden):
+    datum = datetime.datetime.now()
+    uur = datetime.datetime.now()
+    reden = reden
+    db = DbClass()
+    db.setDataToLog(datum,uur,reden)
+
+    for pin in ControlPin:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
+
+    seq = [[1, 0, 0, 0],
+           [1, 1, 0, 0],
+           [0, 1, 0, 0],
+           [0, 1, 1, 0],
+           [0, 0, 1, 0],
+           [0, 0, 1, 1],
+           [0, 0, 0, 1],
+           [1, 0, 0, 1]]
+
+    for i in range(512):
+        ### GO THROUGH THE SEQUENCE ONCE ###
+        for halfstep in range(8):
+            ### GO THROUGH EACH HALF-STEP ###
+            for pin in range(4):
+                ### SET EACH PIN ###
+                GPIO.output(ControlPin[pin], seq[halfstep][pin])
+            time.sleep(0.001)
+
+def rolluik_sluiten(reden):
+    datum = datetime.datetime.now()
+    uur = datetime.datetime.now()
+    reden = reden
+    db = DbClass()
+    db.setDataToLog(datum, uur, reden)
+
+    for pin in ControlPin:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
+
+    seq = [[0, 0, 0, 1],
+           [0, 0, 1, 1],
+           [0, 0, 1, 0],
+           [0, 1, 1, 0],
+           [0, 1, 0, 0],
+           [1, 1, 0, 0],
+           [1, 0, 0, 0],
+           [1, 0, 0, 1]]
+
+    for i in range(512):
+        ### GO THROUGH THE SEQUENCE ONCE ###
+        for halfstep in range(8):
+            ### GO THROUGH EACH HALF-STEP ###
+            for pin in range(4):
+                ### SET EACH PIN ###
+                GPIO.output(ControlPin[pin], seq[halfstep][pin])
+            time.sleep(0.001)
 
 app.secret_key = "my precious"
 
@@ -69,49 +128,9 @@ def home():
     if request.method == "POST":
         button = request.form["button"]
         if button == "open":
-            for pin in ControlPin:
-                GPIO.setup(pin, GPIO.OUT)
-                GPIO.output(pin, 0)
-
-            seq = [[1, 0, 0, 0],
-                   [1, 1, 0, 0],
-                   [0, 1, 0, 0],
-                   [0, 1, 1, 0],
-                   [0, 0, 1, 0],
-                   [0, 0, 1, 1],
-                   [0, 0, 0, 1],
-                   [1, 0, 0, 1]]
-
-            for i in range(512):
-                ### GO THROUGH THE SEQUENCE ONCE ###
-                for halfstep in range(8):
-                    ### GO THROUGH EACH HALF-STEP ###
-                    for pin in range(4):
-                        ### SET EACH PIN ###
-                        GPIO.output(ControlPin[pin], seq[halfstep][pin])
-                    time.sleep(0.001)
+            rolluik_openen("Rolluik manueel gesloten door de gebruiker.")
         if button == "sluiten":
-            for pin in ControlPin:
-                GPIO.setup(pin, GPIO.OUT)
-                GPIO.output(pin, 0)
-
-            seq = [[0, 0, 0, 1],
-                   [0, 0, 1, 1],
-                   [0, 0, 1, 0],
-                   [0, 1, 1, 0],
-                   [0, 1, 0, 0],
-                   [1, 1, 0, 0],
-                   [1, 0, 0, 0],
-                   [1, 0, 0, 1]]
-
-            for i in range(512):
-                ### GO THROUGH THE SEQUENCE ONCE ###
-                for halfstep in range(8):
-                    ### GO THROUGH EACH HALF-STEP ###
-                    for pin in range(4):
-                        ### SET EACH PIN ###
-                        GPIO.output(ControlPin[pin], seq[halfstep][pin])
-                    time.sleep(0.001)
+            rolluik_sluiten("Rolluik manueel geopend door de gebruiker.")
     return render_template('home.html')
 
 @app.route('/log')
@@ -122,27 +141,52 @@ def log():
     return render_template('log.html', lijst_logs = lijst_logs)
 
 
-@app.route('/automatisatie')
+@app.route('/automatisatie', methods=['GET', 'POST'])
 @login_nodig
 def automatisatie():
     db_layer = DbClass()
     lijst_automatisaties = db_layer.getAutomaisaties()
 
-    return render_template('automatisatie.html', lijst_automatisaties = lijst_automatisaties)
+    switch = 0
+    if request.method == "POST":
+        button = request.form["button"]
+        if button == "geen licht-open gordijn":
+            # Define Variables
+            delay = 0.5
+            ldr_channel = 0
+
+            # Create SPI
+            spi = spidev.SpiDev()
+            spi.open(0, 0)
+
+            def readadc(adcnum):
+                # read SPI data from the MCP3008, 8 channels in total
+                if adcnum > 7 or adcnum < 0:
+                    return -1
+                r = spi.xfer2([1, 8 + adcnum << 4, 0])
+                data = ((r[1] & 3) << 8) + r[2]
+                return data
+
+            while True:
+                ldr_value = readadc(ldr_channel)
+                print(ldr_value)
+                time.sleep(delay)
+                if ldr_value > 600 and switch == 0:
+                    switch = 1
+                    rolluik_openen("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
+
+                elif ldr_value < 600 and switch == 1:
+                    switch = 0
+                    rolluik_sluiten("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
+
+
+    return render_template('automatisatie.html')
 
 
 
 @app.route('/nieuwe_automatisatie', methods=['GET', 'POST'])
 @login_nodig
 def nieuwe_automatisatie():
-    if request.method == "POST":
-        db = DbClass()
-        naam = request.form['naam']
-        uurStart = request.form['uurStart']
-        uurStop = request.form['uurstop']
-        beschrijving= ""
-        db.setDataToAutomatisatie(naam,uurStart,uurStop,beschrijving)
-
 
     return render_template('nieuwe_automatisatie.html')
 

@@ -71,12 +71,11 @@ class DbClass:
         self.__connection.commit()
         self.__cursor.close()
 
-    def setDataToAutomatisatie(self, naam,uurStart,uurStop,beschrijving):
+    def setDataToLog(self,datum, uur, reden):
         # Query met parameters
-        sqlQuery = "INSERT INTO tblautomatisaties (naam_automatisatie, uur_start,uur_stop,beschrijving) VALUES ('{naam}','{uurStart}','{uurStop}','{beschrijving}')"
+        sqlQuery = "INSERT INTO tbllog (datum, uur, reden) VALUES ('{datum}', '{uur}', '{reden}')"
         # Combineren van de query en parameter
-        sqlCommand = sqlQuery.format(naam=naam, uurStart = uurStart, uurStop=uurStop,beschrijving=beschrijving)
-
+        sqlCommand = sqlQuery.format(datum=datum, uur= uur, reden= reden)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
         self.__cursor.close()
