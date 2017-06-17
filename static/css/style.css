@@ -79,7 +79,6 @@ h1{
     padding-top: 25px;
     padding-bottom: 25px;
     font-weight: bold;
-
 }
 
 
@@ -89,27 +88,21 @@ h1{
     margin-top: 25px;
 }
 
-.content img{
-    width: 800px;
-    height: 450px;
-    border: 2px solid #8b8b8b;
-}
-
-.content button{
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
-    border: 1px solid #8b8b8b;
-    font-size: 15px;
-    color: #8b8b8b;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-top: 10px;
-}
+/*.content button{*/
+    /*background-color: Transparent;*/
+    /*background-repeat:no-repeat;*/
+    /*cursor:pointer;*/
+    /*overflow: hidden;*/
+    /*outline:none;*/
+    /*border: 1px solid #8b8b8b;*/
+    /*font-size: 15px;*/
+    /*color: #8b8b8b;*/
+    /*padding-top: 10px;*/
+    /*padding-bottom: 10px;*/
+    /*padding-right: 10px;*/
+    /*padding-left: 10px;*/
+    /*margin-top: 10px;*/
+/*}*/
 
 button:hover {
     transition:all 0.3s ease;
@@ -117,56 +110,51 @@ button:hover {
     color: white;
 }
 
+#graden{
+    font-family: "Roboto", sans-serif;
+    font-size: 156px;
+    color: #8b8b8b;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 900;
+}
 
+p{
+    display: inline-block;
+    font-family: "Roboto", sans-serif;
+    font-size: 72px;
+    color: #8b8b8b;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 900;
+}
 
 /*log #######*/
 
 .log table{
     border-collapse: collapse;
     margin: 0 auto;
-    width: 300px;
+    table-layout: auto;
+
 }
 
-.log table, th, td{
-    border: 1px solid #ddd;
-    text-align: left;
-}
 
-.log th, td, tr{
-   height: 20px;
-    background-color: white;
+.log td, tr{
     color: black;
     padding: 5px 5px;
+    border: 1px solid #ddd;
+    text-align: left;
+    background-color: #eaeaea;
 }
 
 .log th{
     background-color: #d2d2d2;
     color: #808080;
+    height: 20px;
 }
 
-.log tr{
-}
 
 /*automatisatie #########*/
-.automatisatie table{
-    background-color: #aaaaaa;
-    border: 0px solid;
-    vertical-align: middle;
-    width: 450px;
-}
-
-.automatisatie table, th, td{
-    border: 0px solid;
-    text-align: left;
-    margin: 5px auto;
-}
-
-.automatisatie th, td, tr{
-   height: 20px;
-    background-color: #aaaaaa;
-    color: white;
-    padding: 5px 5px;
-}
 
 /* slider */
 .switch {
@@ -217,27 +205,27 @@ input:checked + .slider:before {
 
 /* nieuwe automatisatie###########*/
 
-form input{
-    border: 0;
-    outline: 0px;
-    background: transparent;
-    border-bottom: 1px solid #8b8b8b;
-    margin-bottom: 20px;
-    font-size: 18px;
-    width: 200px;
-    text-align: center;
-    color: #8b8b8b;
-    height: 35px;
-    display: inline;
-}
+/*form input{*/
+    /*border: 0;*/
+    /*outline: 0px;*/
+    /*background: transparent;*/
+    /*border-bottom: 1px solid #8b8b8b;*/
+    /*margin-bottom: 20px;*/
+    /*font-size: 18px;*/
+    /*width: 200px;*/
+    /*text-align: center;*/
+    /*color: #8b8b8b;*/
+    /*height: 35px;*/
+    /*display: inline;*/
+/*}*/
 
-#graden{
-    width: 50px;
-}
+/*#graden{*/
+    /*width: 50px;*/
+/*}*/
 
-form .geraden{
-    width: 50px;
-}
+/*form .geraden{*/
+    /*width: 50px;*/
+/*}*/
 
 form .checkbox{
     border: 0;
@@ -264,13 +252,13 @@ select{
     height: 35px;
 }
 
-form{
-    background-color: #eaeaea;
-    margin: 0 auto;
-    width: 700px;
-    border-radius: 2px;
-    padding: 30px 30px;
-}
+/*form{*/
+    /*background-color: #eaeaea;*/
+    /*margin: 0 auto;*/
+    /*width: 700px;*/
+    /*border-radius: 2px;*/
+    /*padding: 30px 30px;*/
+/*}*/
 
 .checkbox:checked + input {
     pointer-events:none;
@@ -329,6 +317,14 @@ form{
     color: white;
 }
 
+.knop_automatisatie{
+    width: 300px;
+    height: 200px;
+    background-color: #aaaaaa;
+    color: black;
+    font-size: 16px;
+}
+
 .message h3{
     color: white;
 }
@@ -349,4 +345,27 @@ form{
 #laatste_tr{
     border-bottom-color: white;
     border-bottom: 10px solid white;
+}
+
+#grafiek{
+    width: 400px;
+    margin: 0 auto;
+}
+
+.homebutton{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border: 5px solid #8b8b8b;
+    font-size: 25px;
+    color: #8b8b8b;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 10px;
+    width: 200px;
+    height: 150px;
 }

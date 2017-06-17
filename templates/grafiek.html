@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Grafiek
+{% endblock %}
+
+{% block grafiek %}
+    class="active"
+{% endblock %}
+
+{% block body %}
+{#    <div class="content center">#}
+        <div id="grafiek">
+            <canvas class="content center" id="lineChart" height="400" width="400"></canvas>
+        </div>
+{#    </div>#}
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
+<script>
+
+let CHART = document.getElementById("lineChart");
+let lineChart = new Chart(CHART, {
+    type: 'line',
+    data: {
+        labels: ["1","2","3","4","5","6","7","8","9","10",],
+        datasets: [{
+            label: 'De laatste 10 temperatuur metingen',
+            data: {{ lijst }}
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+
+
+</script>
+
+
+
+{% endblock %}

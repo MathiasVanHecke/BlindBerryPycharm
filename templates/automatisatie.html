@@ -9,34 +9,13 @@
 {% endblock %}
 
 {% block body %}
-    <div class="content automatisatie center">
+
+    <div class="center">
+    <h1>Automatisatie</h1>
     <form method="post">
-        <button type="submit" value="geen licht-open gordijn" name="button">geen licht-open gordijn</button>
+        <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button">Geen licht-open gordijn</button>
+        <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button">Wel licht-open gordijn</button>
     </form>
-
-        <h1>Automatisatie</h1>
-        <a href="{{ url_for('nieuwe_automatisatie') }}"><button type="button">Een nieuwe automatisatie aanmaken.</button></a>
-
-            <table class="automatisatie" align="center">
-
-
-            {% for automatisatie in lijst_automatisaties %}
-
-            <tr>
-                <td rowspan="3"><label class="switch"><input type="checkbox"><div class="slider"></div></label></td>
-                <td>{{ automatisatie[0] }}</td>
-            </tr>
-             <tr>
-                <td>{{ automatisatie[3] }}</td>
-            </tr>
-            <tr id="laatste_tr">
-                <td>{{ automatisatie[1] }} - {{ automatisatie[2] }}</td>
-            </tr>
-
-            {% endfor %}
-
-            </table>
-
 
     </div>
 
