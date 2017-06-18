@@ -36,7 +36,7 @@ class DbClass:
         sqlCommand = sqlQuery.format(toestand=toestand)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
 
     def updateToestandLicht(self,toestand):
         # Query met parameters
@@ -45,7 +45,7 @@ class DbClass:
         sqlCommand = sqlQuery.format(toestand=toestand)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
 
     def updateToestandGeenLicht(self,toestand):
         # Query met parameters
@@ -54,7 +54,7 @@ class DbClass:
         sqlCommand = sqlQuery.format(toestand=toestand)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
 
     def updateToestandWelLicht(self,toestand):
         # Query met parameters
@@ -63,7 +63,7 @@ class DbClass:
         sqlCommand = sqlQuery.format(toestand=toestand)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
 
     def getToestandBlind(self):
         sqlQuery = "SELECT toestand  FROM tbltoestand WHERE idtoestand = 0;"

@@ -13,10 +13,26 @@
     <div class="center">
     <h1>Automatisatie</h1>
     <form method="post">
-        <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button">Geen licht-open gordijn</button>
-        <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button">Wel licht-open gordijn</button>
+        <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button">Als het buiten donker is, dan opent de gordijn.</button>
+        <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button">Als het buiten licht is, dan opent de gordijn.</button>
+        <button class="knop_automatisatie" type="submit" value="stop" name="button">Stop scene's</button>
     </form>
 
+
+
+    <div class="besturing">
+
+
+                <form method="post">
+{#                    <meta http-equiv="refresh" content="2">#}
+
+                <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button" {% if toestandGeenLicht[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Als het buiten donker is, dan opent de gordijn.</button>
+                <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button"{% if toestandWelLicht[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Als het buiten licht is, dan opent de gordijn.</button>
+                    toestand rolluik: {% if toestandWelLicht[0] == 1 or toestandGeenLicht[0] == 1 %} Gesloten {% elif toestandBlind[0] == 0 %} Open {% endif %}
+                <button class="knop_automatisatie" type="submit" value="stop" name="button">Stop scene's</button>
+
+                </form>
+            </div>
     </div>
 
 {% endblock %}

@@ -74,7 +74,7 @@ class Threading(object):
             temp_channel = 1
 
             # Define delay between readings
-            delay = 60
+            delay = 10
 
 
             while True:
@@ -98,9 +98,82 @@ class Threading(object):
                 # db.setDataToData(temperatuur,licht)
 
                 # Wait before repeating loop
+                def checkGeenLicht():
+                    db = DbClass()
+                    print("gecontroleerd op Geen Licht aanstaat")
+                    toestandGeenLicht = db.getToestandBlindGeenLicht()
+                    if toestandGeenLicht[0] == 1:
+                        print("geen licht staat aan.")
 
+                        ldr_channel = 0
 
-                # db.get
+                        # Create SPI
+                        spi = spidev.SpiDev()
+                        spi.open(0, 0)
+
+                        def readadc(adcnum):
+                            # read SPI data from the MCP3008, 8 channels in total
+                            if adcnum > 7 or adcnum < 0:
+                                return -1
+                            r = spi.xfer2([1, 8 + adcnum << 4, 0])
+                            data = ((r[1] & 3) << 8) + r[2]
+                            return data
+
+                        while True:
+                            ldr_value = readadc(ldr_channel)
+                            time.sleep(10)
+                            print(ldr_value)
+
+                            db = DbClass()
+                            toestand = db.getToestandBlind()
+                            if ldr_value > 600 and toestand[0] == 1:
+                                print("donker")
+                                db.updateToestandBlind(0)
+                                rolluik_openen("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
+
+                            elif ldr_value < 600 and toestand[0] == 0:
+                                print("licht")
+                                db.updateToestandBlind(1)
+                                rolluik_sluiten("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
+                checkGeenLicht()
+                def checkWelLicht():
+                    db = DbClass()
+                    print("gecontroleerd op Licht aanstaat")
+                    toestandWelLicht = db.getToestandBlindWelLicht()
+
+                    if toestandWelLicht[0] == 1:
+                        print("lichtstaat aan.")
+
+                        ldr_channel = 0
+
+                        # Create SPI
+                        spi = spidev.SpiDev()
+                        spi.open(0, 0)
+
+                        def readadc(adcnum):
+                            # read SPI data from the MCP3008, 8 channels in total
+                            if adcnum > 7 or adcnum < 0:
+                                return -1
+                            r = spi.xfer2([1, 8 + adcnum << 4, 0])
+                            data = ((r[1] & 3) << 8) + r[2]
+                            return data
+
+                        while True:
+                            ldr_value = readadc(ldr_channel)
+                            print(ldr_value)
+                            time.sleep(0.5)
+                            db = DbClass()
+                            toestand = db.getToestandBlindWelLicht()
+                            if ldr_value > 600 and toestand[0] == 1:
+                                db.updateToestandBlind(1)
+                                rolluik_sluiten("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
+
+                            elif ldr_value < 600 and toestand[0] == 0:
+                                db.updateToestandBlind(0)
+                                rolluik_openen("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
+
+                checkWelLicht()
+
                 time.sleep(delay)
 
             time.sleep(self.interval)
@@ -108,18 +181,11 @@ class Threading(object):
 
 
 
-def checkGeenLicht():
-  db = DbClass()
-  toestand = db.getToestandBlindGeenLicht()
-
-  if toestand[0] == 1:
-
-
 
 
 
 app = Flask(__name__)
-
+Threading()
 
 
 def licht_uit(reden):
@@ -256,23 +322,30 @@ def home():
         if button == "open" and toestandBlind[0] == 1:
             db.updateToestandBlind(0)
             rolluik_openen("Rolluik manueel gesloten door de gebruiker.")
+            db.updateToestandGeenLicht(0)
+            db.updateToestandWelLicht(0)
+            return redirect(url_for('home'))
 
         if button == "sluiten" and toestandBlind[0] == 0:
             db.updateToestandBlind(1)
             rolluik_sluiten("Rolluik manueel geopend door de gebruiker.")
+            db.updateToestandGeenLicht(0)
+            db.updateToestandWelLicht(0)
+            return redirect(url_for('home'))
 
-        print(toestandLicht) #1 is aan
         if button == "aan" and toestandLicht[0] == 1:
             db.updateToestandLicht(0)
             licht_aan("Licht aan door de gebruiker")
+            return redirect(url_for('home'))
 
         if button == "uit" and toestandLicht[0] == 0:
             db.updateToestandLicht(1)
             licht_uit("Licht uit door de gebruiker")
+            return redirect(url_for('home'))
 
 
 
-    return render_template('home.html', laatste_temp=laatste_temp[0], toestandBlind=toestandBlind, toestandLicht= toestandLicht)
+    return render_template('home.html', laatste_temp=laatste_temp[0], toestandBlind=toestandBlind, toestandLicht=toestandLicht)
 
 @app.route('/log', methods=['GET', 'POST'])
 @login_nodig
@@ -294,72 +367,24 @@ def log():
 @login_nodig
 def automatisatie():
     db_layer = DbClass()
-    lijst_automatisaties = db_layer.getAutomaisaties()
+    toestandWelLicht = db_layer.getToestandBlindWelLicht()
+    toestandGeenLicht = db_layer.getToestandBlindGeenLicht()
 
-    switch = 0
     if request.method == "POST":
         button = request.form["button"]
         if button == "geen licht-open gordijn":
             db_layer.updateToestandGeenLicht(1)
             # Define Variables
-            delay = 0.5
-            ldr_channel = 0
-
-            # Create SPI
-            spi = spidev.SpiDev()
-            spi.open(0, 0)
-
-            def readadc(adcnum):
-                # read SPI data from the MCP3008, 8 channels in total
-                if adcnum > 7 or adcnum < 0:
-                    return -1
-                r = spi.xfer2([1, 8 + adcnum << 4, 0])
-                data = ((r[1] & 3) << 8) + r[2]
-                return data
-
-            while True:
-                ldr_value = readadc(ldr_channel)
-                print(ldr_value)
-                time.sleep(delay)
-                if ldr_value > 600 and switch == 0:
-                    switch = 1
-                    rolluik_openen("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
-
-                elif ldr_value < 600 and switch == 1:
-                    switch = 0
-                    rolluik_sluiten("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
 
         if button == "wel licht-open gordijn":
             db_layer.updateToestandWelLicht(1)
-            # Define Variables
-            delay = 0.5
-            ldr_channel = 0
 
-            # Create SPI
-            spi = spidev.SpiDev()
-            spi.open(0, 0)
+        if button == "stop":
+            db_layer.updateToestandWelLicht(0)
+            db_layer.updateToestandGeenLicht(0)
 
-            def readadc(adcnum):
-                # read SPI data from the MCP3008, 8 channels in total
-                if adcnum > 7 or adcnum < 0:
-                    return -1
-                r = spi.xfer2([1, 8 + adcnum << 4, 0])
-                data = ((r[1] & 3) << 8) + r[2]
-                return data
+    return render_template('automatisatie.html', toestandWelLicht = toestandWelLicht, toestandGeenLicht = toestandGeenLicht)
 
-            while True:
-                ldr_value = readadc(ldr_channel)
-                print(ldr_value)
-                time.sleep(delay)
-                if ldr_value > 600 and switch == 0:
-                    switch = 1
-                    rolluik_openen("Rolluik omlaag door lichtsensor, omdat het buiten licht is.")
-
-                elif ldr_value < 600 and switch == 1:
-                    switch = 0
-                    rolluik_sluiten("Rolluik omhoog door lichtsensor, omdat het buiten donker is. ")
-
-    return render_template('automatisatie.html')
 
 
 

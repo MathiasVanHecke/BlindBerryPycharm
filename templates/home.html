@@ -14,9 +14,8 @@
 
             <div class="besturing">
                 <p id="graden">{{ laatste_temp[-1] }} </p><p>°C</p>
+
                 <form method="post">
-                    <meta http-equiv="refresh" content="2">
-                    Bestuur de rolluik:
                 <button class="homebutton" type="submit" value="sluiten" name="button" id="sluiten" {% if toestandBlind[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Sluiten</button>
                 <button class="homebutton" type="submit" value="open" name="button" id="openen" {% if toestandBlind[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Openen</button>
                     toestand rolluik: {% if toestandBlind[0] == 1 %} Gesloten {% elif toestandBlind[0] == 0 %} Open {% endif %}
