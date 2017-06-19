@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, url_for, request, redirect, session
 from functools import wraps
 from DbClass import DbClass
@@ -5,6 +6,9 @@ import ctypes
 import os
 import datetime
 import threading
+
+from threading import Thread
+
 
 #====Steppermotor===
 import RPi.GPIO as GPIO
@@ -25,21 +29,14 @@ GPIO.setmode(GPIO.BOARD)
 
 
 class Threading(object):
-    """ Threading example class
-    The run() method will be started and it will run in the background
-    until the application exits.
-    """
+
 
     def __init__(self, interval=10):
-        """ Constructor
-        :type interval: int
-        :param interval: Check interval, in seconds
-        """
+
         self.interval = interval
 
         thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
+        thread.start() # Start the execution
 
 
     def run(self):
@@ -74,7 +71,8 @@ class Threading(object):
             temp_channel = 1
 
             # Define delay between readings
-            delay = 10
+            delay = 4
+
 
 
             while True:
@@ -91,120 +89,75 @@ class Threading(object):
 
                 print("Light: {} ".format(light_level))
                 print("Temp : {} deg C".format(int(temp)))
-                # licht = light_level
-                # temperatuur = temp
+                licht = light_level
+                temperatuur = temp
 
-                # db = DbClass()
-                # db.setDataToData(temperatuur,licht)
-
-                # Wait before repeating loop
-                def checkGeenLicht():
-                    db = DbClass()
-                    print("gecontroleerd op Geen Licht aanstaat")
-                    toestandGeenLicht = db.getToestandBlindGeenLicht()
-                    if toestandGeenLicht[0] == 1:
-                        print("geen licht staat aan.")
-
-                        ldr_channel = 0
-
-                        # Create SPI
-                        spi = spidev.SpiDev()
-                        spi.open(0, 0)
-
-                        def readadc(adcnum):
-                            # read SPI data from the MCP3008, 8 channels in total
-                            if adcnum > 7 or adcnum < 0:
-                                return -1
-                            r = spi.xfer2([1, 8 + adcnum << 4, 0])
-                            data = ((r[1] & 3) << 8) + r[2]
-                            return data
-
-                        while True:
-                            ldr_value = readadc(ldr_channel)
-                            time.sleep(10)
-                            print(ldr_value)
-
-                            db = DbClass()
-                            toestand = db.getToestandBlind()
-                            if ldr_value > 600 and toestand[0] == 1:
-                                print("donker")
-                                db.updateToestandBlind(0)
-                                rolluik_openen("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
-
-                            elif ldr_value < 600 and toestand[0] == 0:
-                                print("licht")
-                                db.updateToestandBlind(1)
-                                rolluik_sluiten("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
-                checkGeenLicht()
-                def checkWelLicht():
-                    db = DbClass()
-                    print("gecontroleerd op Licht aanstaat")
-                    toestandWelLicht = db.getToestandBlindWelLicht()
-
-                    if toestandWelLicht[0] == 1:
-                        print("lichtstaat aan.")
-
-                        ldr_channel = 0
-
-                        # Create SPI
-                        spi = spidev.SpiDev()
-                        spi.open(0, 0)
-
-                        def readadc(adcnum):
-                            # read SPI data from the MCP3008, 8 channels in total
-                            if adcnum > 7 or adcnum < 0:
-                                return -1
-                            r = spi.xfer2([1, 8 + adcnum << 4, 0])
-                            data = ((r[1] & 3) << 8) + r[2]
-                            return data
-
-                        while True:
-                            ldr_value = readadc(ldr_channel)
-                            print(ldr_value)
-                            time.sleep(0.5)
-                            db = DbClass()
-                            toestand = db.getToestandBlindWelLicht()
-                            if ldr_value > 600 and toestand[0] == 1:
-                                db.updateToestandBlind(1)
-                                rolluik_sluiten("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
-
-                            elif ldr_value < 600 and toestand[0] == 0:
-                                db.updateToestandBlind(0)
-                                rolluik_openen("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
-
-                checkWelLicht()
+                db = DbClass()
+                db.setDataToData(temperatuur,licht)
 
                 time.sleep(delay)
 
             time.sleep(self.interval)
 
+class ThreadingScenes(object):
 
 
+    def __init__(self, interval=10):
+
+        self.interval = interval
+
+        thread = threading.Thread(target=self.start, args=())
+        thread.start() # Start the execution
 
 
+    def start(self):
+        def checkScenes():
+            while True:
+                db = DbClass()
+                print("gecontrolleerd of Geen Licht aanstaat in bijbestand")
+                print("gencontrolleerd of wel licht aanstaat in bijbestand")
+                toestandGeenLicht = db.getToestandBlindGeenLicht()
+                toestandWelLicht = db.getToestandBlindWelLicht()
+                if toestandGeenLicht[0] == 1:
+                    print("geen licht staat aan.")
+                    geenLichtScene()
+                if toestandWelLicht[0] == 1:
+                    print("WelLicht staat aan.")
+                    welLichtScene()
+                time.sleep(5)
 
+        def geenLichtScene():
+            db = DbClass()
+            ldr_value = db.getLaatsteLicht()
+            print(ldr_value)
+            toestand = db.getToestandBlind()
 
-app = Flask(__name__)
-Threading()
+            if ldr_value[0][1] > 600 and toestand[0] == 1:
+                print("donker")
+                db.updateToestandBlind(0)
+                rolluik_openen("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
 
+            elif ldr_value[0][1] < 600 and toestand[0] == 0:
+                print("licht")
+                db.updateToestandBlind(1)
+                rolluik_sluiten("Rolluik omlaag door lichtsensor, omdat het buiten licht is.")
 
-def licht_uit(reden):
-    GPIO.setup(40, GPIO.OUT)
-    GPIO.output(40, GPIO.LOW)
-    datum = datetime.datetime.now()
-    uur = datetime.datetime.now()
-    reden = reden
-    db = DbClass()
-    db.setDataToLog(datum, uur, reden)
+        def welLichtScene():
+            db = DbClass()
+            ldr_value = db.getLaatsteLicht()
+            print(ldr_value)
+            toestand = db.getToestandBlind()
+            if ldr_value[0][1] > 600 and toestand[0] == 0:
+                db.updateToestandBlind(1)
+                rolluik_sluiten("Rolluik omhoog door lichtsensor, omdat het buiten donker is.")
 
-def licht_aan(reden):
-    GPIO.setup(40, GPIO.OUT)
-    datum = datetime.datetime.now()
-    uur = datetime.datetime.now()
-    reden = reden
-    db = DbClass()
-    db.setDataToLog(datum, uur, reden)
-    GPIO.output(40, GPIO.HIGH)
+            elif ldr_value[0][1] < 600 and toestand[0] == 1:
+                db.updateToestandBlind(0)
+                rolluik_openen("Rolluik omlaag door lichtsensor, omdat het buiten licht is. ")
+
+        checkScenes()
+
+        time.sleep(self.interval)
 
 def rolluik_openen(reden):
     datum = datetime.datetime.now()
@@ -264,6 +217,35 @@ def rolluik_sluiten(reden):
                 GPIO.output(ControlPin[pin], seq[halfstep][pin])
             time.sleep(0.001)
 
+
+
+app = Flask(__name__)
+Threading()
+ThreadingScenes()
+
+
+
+
+
+def licht_uit(reden):
+    GPIO.setup(40, GPIO.OUT)
+    GPIO.output(40, GPIO.LOW)
+    datum = datetime.datetime.now()
+    uur = datetime.datetime.now()
+    reden = reden
+    db = DbClass()
+    db.setDataToLog(datum, uur, reden)
+
+def licht_aan(reden):
+    GPIO.setup(40, GPIO.OUT)
+    datum = datetime.datetime.now()
+    uur = datetime.datetime.now()
+    reden = reden
+    db = DbClass()
+    db.setDataToLog(datum, uur, reden)
+    GPIO.output(40, GPIO.HIGH)
+
+
 app.secret_key = "my precious"
 
 #login nodig
@@ -297,6 +279,10 @@ def login():
 
 @app.route('/registreer', methods=['GET', 'POST'])
 def registreer():
+    if request.method == "POST":
+        db = DbClass()
+        db.setDataToPersonen(request.form['username'], request.form['password'])
+        return redirect(url_for('home'))
     return render_template('registreer.html')
 
 
@@ -321,14 +307,14 @@ def home():
         print(toestandBlind)
         if button == "open" and toestandBlind[0] == 1:
             db.updateToestandBlind(0)
-            rolluik_openen("Rolluik manueel gesloten door de gebruiker.")
+            rolluik_openen("Rolluik manueel geopend door de gebruiker.")
             db.updateToestandGeenLicht(0)
             db.updateToestandWelLicht(0)
             return redirect(url_for('home'))
 
         if button == "sluiten" and toestandBlind[0] == 0:
             db.updateToestandBlind(1)
-            rolluik_sluiten("Rolluik manueel geopend door de gebruiker.")
+            rolluik_sluiten("Rolluik manueel gesloten door de gebruiker.")
             db.updateToestandGeenLicht(0)
             db.updateToestandWelLicht(0)
             return redirect(url_for('home'))
@@ -374,14 +360,18 @@ def automatisatie():
         button = request.form["button"]
         if button == "geen licht-open gordijn":
             db_layer.updateToestandGeenLicht(1)
-            # Define Variables
+            db_layer.updateToestandWelLicht(0)
+            return redirect(url_for('automatisatie'))
 
         if button == "wel licht-open gordijn":
             db_layer.updateToestandWelLicht(1)
+            db_layer.updateToestandGeenLicht(0)
+            return redirect(url_for('automatisatie'))
 
         if button == "stop":
             db_layer.updateToestandWelLicht(0)
             db_layer.updateToestandGeenLicht(0)
+            return redirect(url_for('automatisatie'))
 
     return render_template('automatisatie.html', toestandWelLicht = toestandWelLicht, toestandGeenLicht = toestandGeenLicht)
 

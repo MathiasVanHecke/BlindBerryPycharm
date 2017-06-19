@@ -103,6 +103,11 @@ h1{
     /*padding-left: 10px;*/
     /*margin-top: 10px;*/
 /*}*/
+.besturing{
+    background-color: #f0f0f0;
+    margin: 20px 400px;
+
+}
 
 button:hover {
     transition:all 0.3s ease;
@@ -112,7 +117,7 @@ button:hover {
 
 #graden{
     font-family: "Roboto", sans-serif;
-    font-size: 156px;
+    font-size: 135px;
     color: #8b8b8b;
     padding-top: 25px;
     padding-bottom: 25px;
@@ -121,10 +126,10 @@ button:hover {
 
 p{
     font-family: "Roboto", sans-serif;
-    font-size: 72px;
+    font-size: 32px;
     color: #8b8b8b;
     padding-top: 25px;
-    padding-bottom: 25px;
+    padding-bottom: 20px;
     font-weight: 900;
 }
 
@@ -200,6 +205,12 @@ input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+
+span{
+    background-color: #eaeaea;
+    border-radius: 5px;
+    padding: 0 4px;
 }
 
 /* nieuwe automatisatie###########*/
@@ -311,17 +322,26 @@ select{
 
 .message h2 {
     font-weight: 700;
-    font-size: 16px;
     margin-bottom: 32px;
     color: white;
 }
 
 .knop_automatisatie{
-    width: 300px;
-    height: 200px;
-    background-color: #aaaaaa;
-    color: black;
-    font-size: 16px;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border: 5px solid #8b8b8b;
+    font-size: 15px;
+    color: #8b8b8b;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 10px;
+    width: 200px;
+    height: 150px;
 }
 
 .message h3{

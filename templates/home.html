@@ -12,22 +12,25 @@
 
     <div class="content center">
 
-            <div class="besturing">
-                <p id="graden">{{ laatste_temp[-1] }} </p><p>°C</p>
+
+                <h2 id="graden"><span>{{ laatste_temp[-1] }}°C</span> </h2>
 
                 <form method="post">
-                <button class="homebutton" type="submit" value="sluiten" name="button" id="sluiten" {% if toestandBlind[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Sluiten</button>
-                <button class="homebutton" type="submit" value="open" name="button" id="openen" {% if toestandBlind[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Openen</button>
-                    toestand rolluik: {% if toestandBlind[0] == 1 %} Gesloten {% elif toestandBlind[0] == 0 %} Open {% endif %}
-
-                   Bestuur het licht:
-                <button class="homebutton" type="submit" value="aan" name="button" id="aan" {% if toestandLicht[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Aan</button>
-                <button class="homebutton" type="submit" value="uit" name="button" id="uit" {% if toestandLicht[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Uit</button>
-                    toestand licht: {% if toestandLicht[0] == 1 %} Uit {% elif toestandLicht[0] == 0 %} Aan {% endif %}
-
+                <div class="besturing">
+                    <p>Bestuur de rolluik:</p>
+                    <button class="homebutton" type="submit" value="sluiten" name="button" id="sluiten" {% if toestandBlind[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Sluiten</button>
+                    <button class="homebutton" type="submit" value="open" name="button" id="openen" {% if toestandBlind[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Openen</button>
+                    <p>toestand rolluik: <b><span>{% if toestandBlind[0] == 1 %} Gesloten {% elif toestandBlind[0] == 0 %} Open {% endif %}</span></b> </p>
+                </div>
+                <div class="besturing">
+                    <P>Bestuur het licht:</P>
+                    <button class="homebutton" type="submit" value="aan" name="button" id="aan" {% if toestandLicht[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Aan</button>
+                    <button class="homebutton" type="submit" value="uit" name="button" id="uit" {% if toestandLicht[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Uit</button>
+                    <p>toestand licht: <b><span>{% if toestandLicht[0] == 1 %} Uit {% elif toestandLicht[0] == 0 %} Aan {% endif %}</span></b></p>
+                </div>
 
                 </form>
-            </div>
+
 
 
     </div>

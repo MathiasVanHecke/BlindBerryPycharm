@@ -18,7 +18,7 @@ class DbClass:
         sqlQuery = "SELECT naam_automatisatie, uur_start, uur_stop, beschrijving FROM tblautomatisaties;"
         self.__cursor.execute(sqlQuery)
         result = self.__cursor.fetchall()
-        # self.__cursor.close()
+
         return result
 
     def getLogs(self):
@@ -26,7 +26,7 @@ class DbClass:
         sqlQuery = "SELECT uur, datum, reden  FROM tbllog;"
         self.__cursor.execute(sqlQuery)
         result = self.__cursor.fetchall()
-        # self.__cursor.close()
+
         return result
 
     def updateToestandBlind(self,toestand):
@@ -119,6 +119,13 @@ class DbClass:
         result = self.__cursor.fetchall()
         # self.__cursor.close()
         return result
+    def getLaatsteLicht(self):
+        # Query zonder parameters
+        sqlQuery = "SELECT idtbldata, licht FROM db_BlindBerry.tbldata order by idtbldata desc limit 1;"
+        self.__cursor.execute(sqlQuery)
+        result = self.__cursor.fetchall()
+        # self.__cursor.close()
+        return result
 
     def getLaatste10Temperaturen(self):
         # Query zonder parameters
@@ -136,7 +143,7 @@ class DbClass:
 
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
 
     def setDataToLog(self,datum, uur, reden):
         # Query met parameters
@@ -154,7 +161,15 @@ class DbClass:
         sqlCommand = sqlQuery.format(temperatuur=temperatuur, licht=licht)
         self.__cursor.execute(sqlCommand)
         self.__connection.commit()
-        self.__cursor.close()
+
+
+    def setDataToPersonen(self, persoon, wachtwoord):
+        # Query met parameters
+        sqlQuery = "INSERT INTO tblpersonen (Persoon,Wachtwoord) VALUES ('{Persoon}', '{Wachtwoord}')"
+        # Combineren van de query en parameter
+        sqlCommand = sqlQuery.format(Persoon=persoon, Wachtwoord= wachtwoord)
+        self.__cursor.execute(sqlCommand)
+        self.__connection.commit()
 
 
     def deleteDataLog(self):
