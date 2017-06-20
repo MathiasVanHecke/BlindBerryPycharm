@@ -20,7 +20,6 @@
             <li><a {% block automatisatie %} {% endblock %} href="{{ url_for("automatisatie") }}">AUTOMATISATIE</a></li>
             <li><a {% block grafiek %} {% endblock %} href="{{ url_for("grafiek") }}">GRAFIEK</a></li>
             <li><a {% block loguit %} {% endblock %} href="{{ url_for("logout") }}">LOG UIT</a></li>
-            <li>hallo</li>
         </ul>
     </nav>
 {% block body %}
@@ -30,7 +29,7 @@
 {% endblock %}
 
 {% block footer %}
-    <div class="footer">&copy; 2017 Mathias Van Hecke -- <a href="http://student.howest.be/mathias.van.hecke/portfolio/">Hier</a> vindt u de link naar mijn portefolio, Dit is een ode aan de eindeloze zomerdagen van de jeugdjaren.</div>
+    <div class="footer">&copy; 2017 Mathias Van Hecke -- <a href="http://student.howest.be/mathias.van.hecke/portfolio/">Hier</a> vindt u de link naar mijn portefolio.</div>
 
 {% endblock %}
 {% block scripts %}

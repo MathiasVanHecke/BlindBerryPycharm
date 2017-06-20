@@ -17,7 +17,7 @@
 
                 <form method="post">
                 <div class="besturing">
-                    <p>Bestuur de rolluik:</p>
+                    <p>Bestuur het rolluik:</p>
                     <button class="homebutton" type="submit" value="sluiten" name="button" id="sluiten" {% if toestandBlind[0] == 1 %} style="background-color: #cccccc" disabled {% endif %}>Sluiten</button>
                     <button class="homebutton" type="submit" value="open" name="button" id="openen" {% if toestandBlind[0] == 0 %} style="background-color: #cccccc" disabled {% endif %}>Openen</button>
                     <p>toestand rolluik: <b><span>{% if toestandBlind[0] == 1 %} Gesloten {% elif toestandBlind[0] == 0 %} Open {% endif %}</span></b> </p>

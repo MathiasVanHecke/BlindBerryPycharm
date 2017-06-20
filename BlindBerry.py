@@ -179,7 +179,7 @@ def rolluik_openen(reden):
            [0, 0, 0, 1],
            [1, 0, 0, 1]]
 
-    for i in range(512):
+    for i in range(1024):
         ### GO THROUGH THE SEQUENCE ONCE ###
         for halfstep in range(8):
             ### GO THROUGH EACH HALF-STEP ###
@@ -208,7 +208,7 @@ def rolluik_sluiten(reden):
            [1, 0, 0, 0],
            [1, 0, 0, 1]]
 
-    for i in range(512):
+    for i in range(1024):
         ### GO THROUGH THE SEQUENCE ONCE ###
         for halfstep in range(8):
             ### GO THROUGH EACH HALF-STEP ###

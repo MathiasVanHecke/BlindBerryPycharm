@@ -16,8 +16,8 @@
 
         <form method="post">
         <div class="besturing">
-            <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button" >Als het buiten donker is, dan opent de gordijn.</button>
-            <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button">Als het buiten licht is, dan opent de gordijn.</button>
+            <button class="knop_automatisatie" type="submit" value="geen licht-open gordijn" name="button" >Als het buiten donker is, dan opent het rolluik.</button>
+            <button class="knop_automatisatie" type="submit" value="wel licht-open gordijn" name="button">Als het buiten licht is, dan opent het rolluik.</button>
             <p>Automatisatie die aanstaat: <strong> {% if toestandGeenLicht[0] == 1 %} bij donker, open gordijn. {% elif toestandWelLicht[0] == 1 %} bij licht, open gordijn. {% else %} geen automatisatie is actief.{% endif %}</strong> </p>
         </div>
         <div class="besturing">

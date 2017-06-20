@@ -82,27 +82,13 @@ h1{
 }
 
 
-/* HOME #######################*/
+
 
 .content{
     margin-top: 25px;
 }
 
-/*.content button{*/
-    /*background-color: Transparent;*/
-    /*background-repeat:no-repeat;*/
-    /*cursor:pointer;*/
-    /*overflow: hidden;*/
-    /*outline:none;*/
-    /*border: 1px solid #8b8b8b;*/
-    /*font-size: 15px;*/
-    /*color: #8b8b8b;*/
-    /*padding-top: 10px;*/
-    /*padding-bottom: 10px;*/
-    /*padding-right: 10px;*/
-    /*padding-left: 10px;*/
-    /*margin-top: 10px;*/
-/*}*/
+
 .besturing{
     background-color: #f0f0f0;
     margin: 20px 400px;
@@ -133,7 +119,6 @@ p{
     font-weight: 900;
 }
 
-/*log #######*/
 
 .log table{
     border-collapse: collapse;
@@ -157,10 +142,6 @@ p{
     height: 20px;
 }
 
-
-/*automatisatie #########*/
-
-/* slider */
 .switch {
   position: relative;
   display: inline-block;
@@ -213,30 +194,6 @@ span{
     padding: 0 4px;
 }
 
-/* nieuwe automatisatie###########*/
-
-/*form input{*/
-    /*border: 0;*/
-    /*outline: 0px;*/
-    /*background: transparent;*/
-    /*border-bottom: 1px solid #8b8b8b;*/
-    /*margin-bottom: 20px;*/
-    /*font-size: 18px;*/
-    /*width: 200px;*/
-    /*text-align: center;*/
-    /*color: #8b8b8b;*/
-    /*height: 35px;*/
-    /*display: inline;*/
-/*}*/
-
-/*#graden{*/
-    /*width: 50px;*/
-/*}*/
-
-/*form .geraden{*/
-    /*width: 50px;*/
-/*}*/
-
 form .checkbox{
     border: 0;
     outline: 0px;
@@ -262,13 +219,6 @@ select{
     height: 35px;
 }
 
-/*form{*/
-    /*background-color: #eaeaea;*/
-    /*margin: 0 auto;*/
-    /*width: 700px;*/
-    /*border-radius: 2px;*/
-    /*padding: 30px 30px;*/
-/*}*/
 
 .checkbox:checked + input {
     pointer-events:none;
@@ -286,11 +236,6 @@ select{
     width: 50px;
     height: 50px;
 }
-
-
-
-
-
 
 
 /* 404 ######################*/
@@ -369,6 +314,10 @@ select{
 #grafiek{
     width: 400px;
     margin: 0 auto;
+}
+
+@media screen {
+
 }
 
 .homebutton{
